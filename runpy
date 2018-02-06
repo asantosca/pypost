@@ -1,2 +1,10 @@
 #!/bin/bash
-docker run -it --rm --name my-running-script -v "$PWD":/usr/src/myapp -w /usr/src/myapp python:3 python $1 $2
+if [ ! -d ../$2 ]; then 
+    echo "The folder $2 doesn't exist in the location ..\\$2"
+    exit -1
+fi
+
+docker run -it --rm --name pypostman \
+  -v "$PWD":/usr/src/myapp \
+  -v "$PWD/../$2":/usr/src/myapp/target/ \
+  -w /usr/src/myapp python:3 python $1
